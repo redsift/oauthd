@@ -92,48 +92,55 @@ module.exports = (env) ->
 			else
 				defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
 		else
-			schema = {
-				properties:
-					name: {
-						pattern: /^[a-zA-Z0-9_\-]+$/
-						message: 'You must give a folder name using only letters, digits, dash and underscores'
-						description: 'What will be the name of your oauthd instance?'
-						require: true
-						delimiter: ''
-					}
-			}
-			prompt.message = "oauthd".white
-			prompt.delimiter = "> "
-			prompt.start()
-			prompt.get schema, (err, results) ->
-				defer.reject err if err
-				if results.name.length == 0
-					env.debug 'You must give a folder name using only letters, digits, dash and underscores.'
-					return
-				exists = fs.existsSync './' + results.name
-
+			if options.name
+				exists = fs.existsSync './' + options.name
 				if exists
-					schema = {
-						properties:{}
-					}
-					schema.properties.overwrite = {
-						pattern: /^(y|n)$/
-						message: "Please answer by 'y' for yes or 'n' for no."
-						description: 'A folder ' + results.name + ' already exists. Do you want to overwrite it? (y|N)'
-						default: 'N'
-					}
-
-					prompt.message = "oauthd".white
-					prompt.delimiter = "> "
-					prompt.start()
-
-					prompt.get schema, (err, res_overwrite) ->
-						if res_overwrite.overwrite.match(/[Yy]/)
-							doInit(defer, results.name)
-						else
-							defer.reject new Error 'Stopped'
+					defer.reject new Error 'Stopped because \'' + options.name + '\' folder already exists.'
 				else
-					doInit(defer, results.name)
+					doInit(defer, options.name)
+			else
+				schema = {
+					properties:
+						name: {
+							pattern: /^[a-zA-Z0-9_\-]+$/
+							message: 'You must give a folder name using only letters, digits, dash and underscores'
+							description: 'What will be the name of your oauthd instance?'
+							require: true
+							delimiter: ''
+						}
+				}
+				prompt.message = "oauthd".white
+				prompt.delimiter = "> "
+				prompt.start()
+				prompt.get schema, (err, results) ->
+					defer.reject err if err
+					if results.name.length == 0
+						env.debug 'You must give a folder name using only letters, digits, dash and underscores.'
+						return
+					exists = fs.existsSync './' + results.name
+
+					if exists
+						schema = {
+							properties:{}
+						}
+						schema.properties.overwrite = {
+							pattern: /^(y|n)$/
+							message: "Please answer by 'y' for yes or 'n' for no."
+							description: 'A folder ' + results.name + ' already exists. Do you want to overwrite it? (y|N)'
+							default: 'N'
+						}
+
+						prompt.message = "oauthd".white
+						prompt.delimiter = "> "
+						prompt.start()
+
+						prompt.get schema, (err, res_overwrite) ->
+							if res_overwrite.overwrite.match(/[Yy]/)
+								doInit(defer, results.name)
+							else
+								defer.reject new Error 'Stopped'
+					else
+						doInit(defer, results.name)
 
 
 		defer.promise
