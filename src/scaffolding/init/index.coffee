@@ -52,7 +52,10 @@ module.exports = (env) ->
 			process.chdir old_location
 			defer.resolve(name)
 
-	doInit = (defer, name) ->
+	doInit = (defer, name, plugins) ->
+		if plugins
+			copyBasisStructure defer, name, 'n'
+			return
 		schema = {
 			properties:{}
 		}
@@ -97,7 +100,7 @@ module.exports = (env) ->
 				if exists
 					defer.reject new Error 'Stopped because \'' + options.name + '\' folder already exists.'
 				else
-					doInit(defer, options.name)
+					doInit(defer, options.name, options.noplugins)
 			else
 				schema = {
 					properties:
@@ -136,11 +139,11 @@ module.exports = (env) ->
 
 						prompt.get schema, (err, res_overwrite) ->
 							if res_overwrite.overwrite.match(/[Yy]/)
-								doInit(defer, results.name)
+								doInit(defer, results.name, options.noplugins)
 							else
 								defer.reject new Error 'Stopped'
 					else
-						doInit(defer, results.name)
+						doInit(defer, results.name, options.noplugins)
 
 
 		defer.promise
