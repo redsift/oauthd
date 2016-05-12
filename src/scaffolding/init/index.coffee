@@ -81,12 +81,14 @@ module.exports = (env) ->
 				else
 					defer.resolve(name)
 
-	(force_default) ->
+	(force_default, options) ->
 		defer = Q.defer()
 		if force_default
 			exists = fs.existsSync './default-oauthd-instance'
 			if not exists
-				copyBasisStructure defer, "default-oauthd-instance", "Y"
+				# Maybe for defaults all other flags should be ignored
+				plugins = if options.noplugins then "n" else "Y"
+				copyBasisStructure defer, "default-oauthd-instance", plugins
 			else
 				defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
 		else

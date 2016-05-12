@@ -55,11 +55,13 @@ else
 		if options.help or args.length > 1
 			console.log 'Usage: ' + 'oauthd init'.yellow
 			console.log 'Initializes a new oauthd instance. \nPrompts the user for an instance name and for default components installation prefs.'
+			console.log '\t --name instance name'
+			console.log '\t --noplugins do not install any of the default plugins'
 		else
 			force_default = false
 			if options.default
 				force_default = true
-			scaffolding.init(force_default)
+			scaffolding.init(force_default, options)
 				.then (name) ->
 					endOfInit(name, true)
 				.fail (err) ->
