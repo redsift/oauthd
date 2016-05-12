@@ -63,7 +63,7 @@ else
 				.then (name) ->
 					endOfInit(name, true)
 				.fail (err) ->
-					console.log 'An error occured: '.red + e.message.yellow
+					console.log 'An error occured: '.red + err.message.yellow
 
 
 	else if args[0] == 'start'
