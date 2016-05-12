@@ -48,7 +48,7 @@ module.exports = (env) ->
 					.fail (e) ->
 						next e
 		], (err) ->
-			return defer.reject err if err
+			defer.reject err if err
 			process.chdir old_location
 			defer.resolve(name)
 
@@ -73,9 +73,9 @@ module.exports = (env) ->
 	copyBasisStructure = (defer, name, install_default_plugin) ->
 		env.debug 'Generating a folder for ' + name
 		ncp __dirname + '/../templates/basis_structure', process.cwd() + '/' + name, (err) ->
-			return defer.reject err if err
+			defer.reject err if err
 			fs.rename process.cwd() + '/' + name + '/gitignore', process.cwd() + '/' + name + '/.gitignore', (err) ->
-				return defer.reject err if err
+				defer.reject err if err
 				if install_default_plugin.match(/[yY]/)
 					installPlugins defer, name
 				else
@@ -88,7 +88,7 @@ module.exports = (env) ->
 			if not exists
 				copyBasisStructure defer, "default-oauthd-instance", "Y"
 			else
-				return defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
+				defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
 		else
 			schema = {
 				properties:
@@ -104,7 +104,7 @@ module.exports = (env) ->
 			prompt.delimiter = "> "
 			prompt.start()
 			prompt.get schema, (err, results) ->
-				return defer.reject err if err
+				defer.reject err if err
 				if results.name.length == 0
 					env.debug 'You must give a folder name using only letters, digits, dash and underscores.'
 					return
@@ -129,7 +129,7 @@ module.exports = (env) ->
 						if res_overwrite.overwrite.match(/[Yy]/)
 							doInit(defer, results.name)
 						else
-							return defer.reject new Error 'Stopped'
+							defer.reject new Error 'Stopped'
 				else
 					doInit(defer, results.name)
 
