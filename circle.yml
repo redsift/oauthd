@@ -1,0 +1,26 @@
+machine: 
+  environment: 
+    CIRCLE_REVERSE_DEPENDENCIES: oauthd-service
+  node:
+    version: 4.4.2
+
+general:
+  branches:
+    only:
+      - patched
+
+dependencies:
+  pre:
+    - "npm install -g grunt-cli coffee-script jasmine-node"
+  override:
+    - "grunt"
+
+test: 
+  override:
+    - "npm test"
+
+deployment: 
+  prod: 
+    branch: patched
+    commands: 
+      - "./circle_ci_trigger_build"
