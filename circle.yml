@@ -12,8 +12,6 @@ general:
 dependencies:
   pre:
     - "npm install -g grunt-cli coffee-script jasmine-node"
-  override:
-    - "grunt"
 
 test: 
   override:
