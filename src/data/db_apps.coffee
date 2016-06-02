@@ -162,7 +162,7 @@ module.exports = (env) ->
 					['keys', 'a:' + idapp + ':*']
 				]).exec (err, replies) ->
 					return callback err if err
-					env.data.redis.del replies[1][1], (err, removed) ->
+					env.data.redis.del replies[1], (err, removed) ->
 						return callback err if err
 						return callback()
 
