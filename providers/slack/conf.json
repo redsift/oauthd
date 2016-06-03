@@ -25,7 +25,8 @@
 					"admin": "Allows applications to perform administrative actions, requires the authed user is an admin.",
 					"chat:write:bot": "chat.delete, chat.postMessage, chat.update API methods",
 					"chat:write:user": "chat.delete, chat.meMessage, chat.postMessage, chat.update API methods",
-          "channels:read": "channels.info, channels.list"
+          "channels:read": "channels.info, channels.list",
+          "users:read": "For /me profile"
 				}
 			}
 		}
