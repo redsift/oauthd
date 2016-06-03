@@ -92,7 +92,8 @@ module.exports = function(env) {
               expires_in: expire,
               base: _this._provider.baseurl,
               request: requestclone,
-              refresh_token: response.body.refresh_token
+              refresh_token: response.body.refresh_token,
+              response_body: response.body
             };
             _this._setExtraResponseParameters(configuration, response, result);
             _this._setExtraRequestAuthorizeParameters(req, result);

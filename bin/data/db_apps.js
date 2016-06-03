@@ -237,7 +237,7 @@ module.exports = function(env) {
           if (err) {
             return callback(err);
           }
-          return env.data.redis.del(replies[1][1], function(err, removed) {
+          return env.data.redis.del(replies[1], function(err, removed) {
             if (err) {
               return callback(err);
             }
