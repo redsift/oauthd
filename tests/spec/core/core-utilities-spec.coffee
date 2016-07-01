@@ -27,7 +27,7 @@ describe 'Core - env.utilities module', () ->
 			(next) ->
 				method = env.utilities.check env.utilities.check.format.key, (key, callback) ->
 					callback(null, 'hello')
-				method '1234567890123456789012345689', (err, v) ->
+				method '123456789012345678901234568912345678901234567890123456891234567890123456789012345689', (err, v) ->
 					expect(err).not.toBeNull()
 					expect(err.message).toBe('Bad parameters format')
 					next()
@@ -49,7 +49,7 @@ describe 'Core - env.utilities module', () ->
 					next()
 		], () ->
 			done()
-		
+
 
 	# mail
 
