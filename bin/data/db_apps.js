@@ -16,14 +16,14 @@ module.exports = function(env) {
     var domain, err, i, key, len, ref, secret;
     err = new check.Error;
     err.check(data, {
-      name: /^.{3,50}$/,
+      name: /^.{3,80}$/,
       domains: ['none', 'array']
     });
     if (err.failed()) {
       return callback(new check.Error("You must specify a name and at least one domain for your application."));
     }
-    key = env.data.generateUid();
-    secret = env.data.generateUid();
+    key = data.key ? data.key : env.data.generateUid();
+    secret = data.secret ? data.secret : env.data.generateUid();
     err = new check.Error;
     if (data.domains) {
       ref = data.domains;
@@ -144,7 +144,7 @@ module.exports = function(env) {
     });
   });
   App.update = check(check.format.key, {
-    name: ['none', /^.{3,50}$/],
+    name: ['none', /^.{3,80}$/],
     domains: ['none', 'array']
   }, function(key, data, callback) {
     return env.data.redis.hget('a:keys', key, function(err, idapp) {

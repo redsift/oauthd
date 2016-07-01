@@ -30,7 +30,7 @@ module.exports = (env) ->
 	# create a new app
 	App.create = (data, user, callback) ->
 		err = new check.Error
-		err.check data, name:/^.{3,50}$/,domains:['none','array']
+		err.check data, name:/^.{3,80}$/,domains:['none','array']
 		if err.failed()
 			return callback new check.Error "You must specify a name and at least one domain for your application."
 
@@ -109,7 +109,7 @@ module.exports = (env) ->
 				callback null, id:idapp, name:replies[0], key:replies[1], secret:replies[2], date:replies[3], owner: replies[4], server_side_only: server_side_only, backend: backend
 
 	# update app infos
-	App.update = check check.format.key, name:['none',/^.{3,50}$/], domains:['none','array'], (key, data, callback) ->
+	App.update = check check.format.key, name:['none',/^.{3,80}$/], domains:['none','array'], (key, data, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp
@@ -333,7 +333,7 @@ module.exports = (env) ->
 						env.data.redis.srem 'a:' + idapp + ':providers', provider, (err) ->
 							return callback err if err
 							callback()
-	
+
 	App.getAccess = check check.format.key, 'string', (key, id, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
@@ -342,7 +342,7 @@ module.exports = (env) ->
 				return callback err if err
 				return callback null, [] if ! access
 				return callback null, JSON.parse(access)
-	
+
 	App.setAccess = check check.format.key, 'string', ['array', 'null'], (key, id, access, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
@@ -357,7 +357,7 @@ module.exports = (env) ->
 					env.events.emit 'app.setAccess', key, id, access
 					return callback err if err
 					return callback()
-	
+
 	App.getAccessList = check check.format.key, (key, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
