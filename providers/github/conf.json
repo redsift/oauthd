@@ -23,7 +23,8 @@
 					"repo": "Read/write access to public and private repos and organizations.",
 					"user:follow": "Access to follow or unfollow other users.",
 					"delete_repo": "Delete access to adminable repositories.",
-					"user": "Read/write access to profile info only. Note: this scope includes user:email and user:follow."
+					"user": "Read/write access to profile info only. Note: this scope includes user:email and user:follow.",
+					"read:org": "Read organizations"
 				}
 			}
 		}
