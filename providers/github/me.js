@@ -7,7 +7,6 @@ var me = {
       url: '/user/emails',
       export: {
         emails: function (result) {
-          console.log('email=', result);
           return result;
         }
       }
@@ -16,13 +15,11 @@ var me = {
       url: '/user',
       export: {
         user: function (result) {
-          console.log('user=', result);
           return result;
         }
       }
     },
     function (fetched_elts) {
-      console.log('fetched_elts=', fetched_elts);
       return fetched_elts;
     }
   ],
@@ -49,7 +46,6 @@ var me = {
     email: function (me) {
       var email = null;
       me.emails.forEach(function (em) {
-        console.log('email=', em, em.primary && em.verified);
         if(em.primary === true && em.verified === true) {
           email = em.email;
         }
