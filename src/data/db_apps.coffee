@@ -34,8 +34,8 @@ module.exports = (env) ->
 		if err.failed()
 			return callback new check.Error "You must specify a name and at least one domain for your application."
 
-		key = env.data.generateUid()
-		secret = env.data.generateUid()
+		key = if data.key then data.key else env.data.generateUid()
+		secret = if data.secret then data.secret else env.data.generateUid()
 		err = new check.Error
 		if data.domains
 			for domain in data.domains
