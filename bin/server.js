@@ -54,6 +54,9 @@ module.exports = function(env) {
                 env.events.emit('server', null);
                 return callback(null, server);
               });
+              server.on('uncaughtException', function(req, res, route, err) {
+                res.send(404);
+              });
               return server.listen.apply(server, listen_args);
             };
           })(this));
