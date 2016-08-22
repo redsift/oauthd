@@ -59,7 +59,9 @@ module.exports = (env) ->
 							callback null, server
 
 						server.on 'uncaughtException', (req, res, route, err) ->
-							res.send 404
+							console.log 'UNCAUGHT EXCEPTION:', err.stack
+							if !res.headersSent
+								res.send 404
 							return
 
 						server.listen.apply server, listen_args
