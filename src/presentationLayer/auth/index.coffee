@@ -89,7 +89,7 @@ module.exports = (env) ->
 
 		# oauth: get access token from server
 		env.server.post env.config.base + '/auth/access_token', middlewares_connectauth_chain, (req, res, next) ->
-			console.log 'req.body=', JSON.stringify(req.body)
+			console.log 'req.body=', JSON.stringify(req), req
 			e = new env.utilities.check.Error
 			e.check req.body, code: env.utilities.check.format.key, key: env.utilities.check.format.key, secret: env.utilities.check.format.key
 
