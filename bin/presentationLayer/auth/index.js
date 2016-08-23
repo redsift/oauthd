@@ -126,7 +126,7 @@ module.exports = function(env) {
         return next();
       });
       env.server.post(env.config.base + '/auth/access_token', middlewares_connectauth_chain, function(req, res, next) {
-        console.log('req.body=', JSON.stringify(req.body), req);
+        console.log('req.body=', JSON.stringify(req.body));
         var e;
         e = new env.utilities.check.Error;
         e.check(req.body, {
