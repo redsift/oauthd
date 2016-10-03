@@ -45,11 +45,13 @@ var me = {
     },
     email: function (me) {
       var email = null;
-      me.emails.forEach(function (em) {
-        if(em.primary === true && em.verified === true) {
-          email = em.email;
-        }
-      });
+      if (me.emails && me.emails.forEach) {
+        me.emails.forEach(function (em) {
+          if(em.primary === true && em.verified === true) {
+            email = em.email;
+          }
+        });
+      }
       return email;
     },
     emails: function (me) {
