@@ -379,6 +379,7 @@ module.exports = function(env) {
     });
   });
   App.getKeyset = check(check.format.key, 'string', function(key, provider, callback) {
+    console.log('hget a:keys', key);
     return env.data.redis.hget('a:keys', key, function(err, idapp) {
       if (err) {
         return callback(err);
@@ -391,6 +392,7 @@ module.exports = function(env) {
           return callback(err);
         }
         return App.getBackendById(idapp, function(err, backend) {
+          console.log('mget', 'a:' + idapp + ':k:' + provider);
           return env.data.redis.mget('a:' + idapp + ':k:' + provider, function(err, res) {
             var e, ref, response_type;
             if (err) {

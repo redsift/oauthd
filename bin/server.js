@@ -55,7 +55,7 @@ module.exports = function(env) {
                 return callback(null, server);
               });
               server.on('uncaughtException', function(req, res, route, err) {
-                console.log('UNCAUGHT EXCEPTION:', err.stack);
+                console.log('UNCAUGHT EXCEPTION:', req.url, err.stack);
                 if (!res.headersSent) {
                   res.send(404);
                 }

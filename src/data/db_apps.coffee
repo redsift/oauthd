@@ -242,12 +242,14 @@ module.exports = (env) ->
 
 	# get keys infos of an app for a provider
 	App.getKeyset = check check.format.key, 'string', (key, provider, callback) ->
+		console.log 'hget a:keys', key
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp
 			App.getOptionsById idapp, (err, options) ->
 				return callback err if err
 				App.getBackendById idapp, (err, backend) ->
+					console.log 'mget', ('a:' + idapp + ':k:' + provider)
 					env.data.redis.mget 'a:' + idapp + ':k:' + provider, (err, res) ->
 						return callback err if err
 						if res[0]
