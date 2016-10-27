@@ -168,20 +168,14 @@ module.exports = (env) ->
 
 	# get authorized domains of the app
 	App.getDomains = check check.format.key, (key, callback) ->
-		console.log('getDomains aboot to hget key', key)
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
-			console.log('getDomains result', idapp)
-			console.log('getDomains err', err)
 			return callback err if err
 			return callback new check.Error('Unknown key: "' + key + '" idapp "'+ idapp + '"') unless idapp
 			env.data.redis.smembers 'a:' + idapp + ':domains', callback
 
 	# update all authorized domains of the app
 	App.updateDomains = check check.format.key, 'array', (key, domains, callback) ->
-		console.log('updateDomains aboot to hget key', key)
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
-			console.log('updateDomains result', idapp)
-			console.log('updateDomains err', err)
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp
 
@@ -196,10 +190,7 @@ module.exports = (env) ->
 
 	# add an authorized domain to an app
 	App.addDomain = check check.format.key, 'string', (key, domain, callback) ->
-		console.log('addDomain aboot to hget key', key)
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
-			console.log('addDomain result', idapp)
-			console.log('addDomain err', err)
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp
 			env.data.redis.sadd 'a:' + idapp + ':domains', domain, (err, res) ->
