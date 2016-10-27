@@ -67,6 +67,6 @@
     "rimraf": "^2.2.8",
     "sugar": "^1.4.1",
     "ua-parser-js": "~0.6.2",
-    "underscore": "~1.4.4"
+    "underscore": "~1.8.3"
   }
 }

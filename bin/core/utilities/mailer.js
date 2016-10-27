@@ -41,12 +41,13 @@ module.exports = function(env) {
     };
 
     Mailer.prototype.getHtml = function(templateName, data) {
-      var encoding, templateContent, templateFullPath;
+      var encoding, template, templateContent, templateFullPath;
       templateFullPath = this.options.templatePath + "/" + templateName + ".html";
       templateContent = fs.readFileSync(templateFullPath, encoding = "utf8");
-      return _.template(templateContent, data, {
+      template = _.template(templateContent, {
         interpolate: /\{\{(.+?)\}\}/g
       });
+      return template(data);
     };
 
     return Mailer;
