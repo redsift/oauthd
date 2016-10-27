@@ -248,7 +248,10 @@ module.exports = function(env) {
     });
   });
   App.getDomains = check(check.format.key, function(key, callback) {
+    console.log('getDomains aboot to hget key', key);
     return env.data.redis.hget('a:keys', key, function(err, idapp) {
+      console.log('getDomains result', idapp);
+      console.log('getDomains err', err);
       if (err) {
         return callback(err);
       }
@@ -259,8 +262,11 @@ module.exports = function(env) {
     });
   });
   App.updateDomains = check(check.format.key, 'array', function(key, domains, callback) {
+    console.log('updateDomains aboot to hget key', key);
     return env.data.redis.hget('a:keys', key, function(err, idapp) {
       var cmds, domain, i, len;
+      console.log('updateDomains result', idapp);
+      console.log('updateDomains err', err);
       if (err) {
         return callback(err);
       }
@@ -281,7 +287,10 @@ module.exports = function(env) {
     });
   });
   App.addDomain = check(check.format.key, 'string', function(key, domain, callback) {
+    console.log('addDomain aboot to hget key', key);
     return env.data.redis.hget('a:keys', key, function(err, idapp) {
+      console.log('addDomain result', idapp);
+      console.log('addDomain err', err);
       if (err) {
         return callback(err);
       }
