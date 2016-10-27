@@ -85,9 +85,15 @@ module.exports = function(env) {
       return cb(null, final_response);
     });
   };
+  data.redis.on('connect', function() {
+    return console.log('managed to connect!');
+  });
+  data.redis.on('reconnecting', function(r) {
+    return console.log('reconnecting... ', r.attempt);
+  });
   data.redis.on('error', function(err) {
     data.redis.last_error = 'Error while connecting to redis DB (' + err.message + ')';
-    return console.error(data.redis.last_error);
+    return console.log(err);
   });
   exit.push('Redis db', function(callback) {
     var e;

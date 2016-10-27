@@ -79,11 +79,15 @@ module.exports = (env) ->
 			return cb err if err
 			cb null, final_response
 
+	data.redis.on 'connect', () ->
+		console.log 'managed to connect!'
 
+	data.redis.on 'reconnecting', (r) ->
+		console.log 'reconnecting... ', r.attempt
 
 	data.redis.on 'error', (err) ->
 		data.redis.last_error = 'Error while connecting to redis DB (' + err.message + ')'
-		console.error data.redis.last_error
+		console.log err
 
 	exit.push 'Redis db', (callback) ->
 		try
