@@ -53,6 +53,7 @@ module.exports = function(env) {
       })(this));
       env.server.get('/api/apps/:key', env.middlewares.auth.needAccess('read'), (function(_this) {
         return function(req, res, next) {
+          console.log('/api/apps/' + req.params.key);
           return async.parallel([
             function(cb) {
               return env.data.apps.get(req.params.key, cb);
@@ -107,6 +108,7 @@ module.exports = function(env) {
       })(this));
       env.server.get('/api/apps/:key/domains', env.middlewares.auth.needAccess('read'), (function(_this) {
         return function(req, res, next) {
+          console.log('GET /api/apps/' + req.params.key + '/domains');
           return env.data.apps.getDomains(req.params.key, env.send(res, next));
         };
       })(this));

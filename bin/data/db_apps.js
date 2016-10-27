@@ -256,7 +256,7 @@ module.exports = function(env) {
         return callback(err);
       }
       if (!idapp) {
-        return callback(new check.Error('Unknown key'));
+        return callback(new check.Error('Unknown key: "' + key + '" idapp "' + idapp + '"'));
       }
       return env.data.redis.smembers('a:' + idapp + ':domains', callback);
     });

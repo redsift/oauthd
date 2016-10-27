@@ -31,6 +31,7 @@ module.exports = (env) ->
 
 		# get infos of an app
 		env.server.get '/api/apps/:key', env.middlewares.auth.needAccess('read'), (req, res, next) =>
+			console.log('/api/apps/'+req.params.key)
 			async.parallel [
 				(cb) => env.data.apps.get req.params.key, cb
 				(cb) => env.data.apps.getDomains req.params.key, cb
@@ -66,6 +67,7 @@ module.exports = (env) ->
 
 		# list valid domains for an app
 		env.server.get '/api/apps/:key/domains', env.middlewares.auth.needAccess('read'), (req, res, next) =>
+			console.log('GET /api/apps/'+req.params.key+'/domains')
 			env.data.apps.getDomains req.params.key, env.send(res,next)
 
 		# update valid domains list for an app

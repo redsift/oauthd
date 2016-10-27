@@ -173,7 +173,7 @@ module.exports = (env) ->
 			console.log('getDomains result', idapp)
 			console.log('getDomains err', err)
 			return callback err if err
-			return callback new check.Error 'Unknown key' unless idapp
+			return callback new check.Error('Unknown key: "' + key + '" idapp "'+ idapp + '"') unless idapp
 			env.data.redis.smembers 'a:' + idapp + ':domains', callback
 
 	# update all authorized domains of the app
