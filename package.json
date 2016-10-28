@@ -30,7 +30,8 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-subgrunt": "^0.4.1",
-    "mock-fs": "^3.4.0"
+    "mock-fs": "^3.4.0",
+    "rewire": "~2.5.2"
   },
   "keywords": [],
   "directories": {
@@ -62,7 +63,6 @@
     "redis": "^2.6.1",
     "request": "~2.64.0",
     "restify": "~3.0.3",
-    "rewire": "^2.1.0",
     "rimraf": "^2.2.8",
     "sugar": "^1.4.1",
     "ua-parser-js": "~0.6.2",
