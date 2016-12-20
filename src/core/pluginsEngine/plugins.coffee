@@ -44,8 +44,8 @@ module.exports = (env) ->
 		try
 			plugin_data = require(env.pluginsEngine.cwd + '/plugins/' + plugin_name + '/plugin.json')
 		catch e
-			env.debug 'Error loading plugin.json (' + plugin_name + ')'
-			env.debug e.message.yellow
+			# env.debug 'Error loading plugin.json (' + plugin_name + ')'
+			# env.debug e.message.yellow
 			plugin_data = {
 				name: plugin_name
 			}
@@ -67,6 +67,9 @@ module.exports = (env) ->
 			global_interface = plugin_data
 
 	loadPlugin = (plugin_data) ->
+		if not fs.existsSync(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name)
+			env.debug "Cannot find addon " + plugin_data.name
+			return
 		env.debug "Loading " + plugin_data.name.blue
 		try
 			plugin = require(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name + plugin_data.main)(env)
@@ -78,7 +81,7 @@ module.exports = (env) ->
 				pluginsEngine.plugin[plugin_data.name]?.plugin_config = plugin_data
 		catch e
 			env.debug "Error while loading plugin " + plugin_data.name
-			env.debug e.message.yellow + ' at line ' + e.lineNumber?.red
+			env.debug e.stack.yellow # + ' at line ' + e.lineNumber?.red
 
 	pluginsEngine.init = (cwd, callback) ->
 		env.pluginsEngine.cwd = cwd

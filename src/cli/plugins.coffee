@@ -138,8 +138,7 @@ module.exports = (args, options) ->
 				else
 					scaffolding.plugins.info.getPluginsJson()
 						.then (plugins) ->
-							plugins_data = Object.values(plugins)
-							chainPluginsInstall plugins_data
+							chainPluginsInstall Object.keys(plugins).map (k) -> plugins[k]
 						.fail (e) ->
 							console.log 'An error occured:', e.message
 			return main_defer.promise

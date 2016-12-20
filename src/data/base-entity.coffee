@@ -8,6 +8,7 @@ module.exports = (env) ->
 		@incr: ''
 		@indexes: []
 		@properties: undefined
+		@_cachedTypedKeys: undefined
 		@extendProperties: (array) ->
 			if @properties? and Array.isArray(@properties)
 				for k, prop of array
@@ -15,10 +16,10 @@ module.exports = (env) ->
 						@properties.push prop
 		@findById: (id) ->
 			defer = Q.defer()
-			lapin = new @(id)
-			lapin.load()
+			inst = new @(id)
+			inst.load()
 				.then () ->
-					defer.resolve lapin
+					defer.resolve inst
 				.fail (e) ->
 					defer.reject e
 			defer.promise
@@ -78,6 +79,8 @@ module.exports = (env) ->
 
 			defer.promise
 		typedKeys: () ->
+			if @constructor._cachedTypedKeys
+				return Q(@constructor._cachedTypedKeys)
 			defer = Q.defer()
 			keys = {}
 			@keys()
@@ -95,6 +98,7 @@ module.exports = (env) ->
 							defer.reject(e)
 						else
 							defer.resolve(keys)
+							@constructor._cachedTypedKeys = keys
 				.fail (e) ->
 					defer.reject e
 
@@ -227,7 +231,7 @@ module.exports = (env) ->
 									if opts.ttl?
 										multi.expire @prefix() + key, opts.ttl
 
-									cb()
+								cb()
 						], () =>
 							# Actual execution of the db access
 							multi.exec (e, res) =>

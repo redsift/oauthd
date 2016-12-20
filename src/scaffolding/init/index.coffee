@@ -23,7 +23,7 @@ module.exports = (env) ->
 			(next) ->
 				env.plugins.install({
 					repository: "https://github.com/oauth-io/oauthd-slashme",
-					version: "0.x.x"
+					version: "1.x.x"
 				}, process.cwd())
 					.then () ->
 						next()
@@ -32,7 +32,7 @@ module.exports = (env) ->
 			(next) ->
 				env.plugins.install({
 					repository: "https://github.com/oauth-io/oauthd-request",
-					version: "0.x.x"
+					version: "1.x.x"
 				}, process.cwd())
 					.then () ->
 						next()
@@ -41,14 +41,14 @@ module.exports = (env) ->
 			(next) ->
 				env.plugins.install({
 					repository: "https://github.com/oauth-io/oauthd-front",
-					version: "0.x.x"
+					version: "1.x.x"
 				}, process.cwd())
 					.then () ->
 						next()
 					.fail (e) ->
 						next e
 		], (err) ->
-			defer.reject err if err
+			return defer.reject err if err
 			process.chdir old_location
 			defer.resolve(name)
 
@@ -76,9 +76,9 @@ module.exports = (env) ->
 	copyBasisStructure = (defer, name, install_default_plugin) ->
 		env.debug 'Generating a folder for ' + name
 		ncp __dirname + '/../templates/basis_structure', process.cwd() + '/' + name, (err) ->
-			defer.reject err if err
+			return defer.reject err if err
 			fs.rename process.cwd() + '/' + name + '/gitignore', process.cwd() + '/' + name + '/.gitignore', (err) ->
-				defer.reject err if err
+				return defer.reject err if err
 				if install_default_plugin.match(/[yY]/)
 					installPlugins defer, name
 				else
@@ -89,16 +89,16 @@ module.exports = (env) ->
 		if force_default
 			exists = fs.existsSync './default-oauthd-instance'
 			if not exists
-				# Maybe for defaults all other flags should be ignored
 				plugins = if options.noplugins then "n" else "Y"
 				copyBasisStructure defer, "default-oauthd-instance", plugins
 			else
-				defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
+				return defer.reject new Error 'Stopped because \'default-oauthd-instance\' folder already exists.'
 		else
 			if options.name
 				exists = fs.existsSync './' + options.name
+
 				if exists
-					defer.reject new Error 'Stopped because \'' + options.name + '\' folder already exists.'
+					return defer.reject new Error 'Stopped because \'' + options.name + '\' folder already exists.'
 				else
 					doInit(defer, options.name, options.noplugins)
 			else
@@ -116,7 +116,7 @@ module.exports = (env) ->
 				prompt.delimiter = "> "
 				prompt.start()
 				prompt.get schema, (err, results) ->
-					defer.reject err if err
+					return defer.reject err if err
 					if results.name.length == 0
 						env.debug 'You must give a folder name using only letters, digits, dash and underscores.'
 						return
@@ -141,7 +141,7 @@ module.exports = (env) ->
 							if res_overwrite.overwrite.match(/[Yy]/)
 								doInit(defer, results.name, options.noplugins)
 							else
-								defer.reject new Error 'Stopped'
+								return defer.reject new Error 'Stopped'
 					else
 						doInit(defer, results.name, options.noplugins)
 
