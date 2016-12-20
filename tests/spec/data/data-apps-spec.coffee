@@ -291,7 +291,7 @@ describe 'Data - apps module', () ->
 		uid = 'inexistingapplicationtest'
 		env.data.apps.getDomains uid, (err, domains) ->
 			expect(err).not.toBeNull()
-			expect(err.message).toBe('Unknown key')
+			expect(err.message).toBe('Unknown key: '+ uid)
 			done()
 
 	it 'Application domain removal - env.data.apps.remDomain (success case)', (done) ->

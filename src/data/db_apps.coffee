@@ -170,7 +170,7 @@ module.exports = (env) ->
 	App.getDomains = check check.format.key, (key, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
-			return callback new check.Error('Unknown key: "' + key + '" idapp "'+ idapp + '"') unless idapp
+			return callback new check.Error('Unknown key: ' + key) unless idapp
 			env.data.redis.smembers 'a:' + idapp + ':domains', callback
 
 	# update all authorized domains of the app
