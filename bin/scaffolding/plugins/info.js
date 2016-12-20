@@ -24,7 +24,7 @@ module.exports = function(env) {
       fs.readFile(process.cwd() + '/plugins.json', {
         encoding: 'UTF-8'
       }, function(err, data) {
-        var e, obj, plugins_json, plugins_names;
+        var e, error, obj, plugins_json, plugins_names;
         if (err) {
           return defer.reject(err);
         }
@@ -96,8 +96,8 @@ module.exports = function(env) {
           }, function() {
             return defer.resolve(plugins_json);
           });
-        } catch (_error) {
-          e = _error;
+        } catch (error) {
+          e = error;
           return defer.reject(e);
         }
       });
@@ -167,7 +167,7 @@ module.exports = function(env) {
       fs.readFile(process.cwd() + '/plugins/' + plugin_name + '/plugin.json', {
         encoding: 'UTF-8'
       }, function(err, data) {
-        var plugin_data;
+        var error, plugin_data;
         if (err) {
           if (err.code === 'ENOENT') {
             return defer.reject(new Error('No plugin.json'));
@@ -187,8 +187,8 @@ module.exports = function(env) {
           }).fail(function(err) {
             return defer.reject(err);
           });
-        } catch (_error) {
-          err = _error;
+        } catch (error) {
+          err = error;
           return defer.reject(err);
         }
       });

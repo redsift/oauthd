@@ -64,43 +64,40 @@ module.exports = function(env) {
     return body;
   };
   formatters = {
-    'application/json; q=0.9': function(req, res, body) {
+    'application/json; q=0.9': function(req, res, body, cb) {
       var data;
       data = JSON.stringify(buildReply(body, res));
       res.setHeader('Content-Type', "application/json; charset=utf-8");
       res.setHeader('Content-Length', Buffer.byteLength(data));
-      return data;
+      return cb(null, data);
     },
-    'application/javascript; q=0.1': function(req, res, body) {
+    'application/javascript; q=0.1': function(req, res, body, cb) {
       if (body instanceof Error && !config.debug) {
-        return "";
+        return cb(null, "");
       }
       body = body.toString();
       res.setHeader('Content-Type', "application/javascript; charset=utf-8");
       res.setHeader('Content-Length', Buffer.byteLength(body));
-      return body;
+      return cb(null, body);
     },
-    'text/html; q=0.1': function(req, res, body) {
-      var k, msg, ref, ref1, v;
+    'text/html; q=0.1': function(req, res, body, cb) {
+      var k, msg, ref, ref1, stack, v;
       if (body instanceof Error) {
         if (body instanceof check.Error || body instanceof restify.RestError) {
-          msg = body.message;
+          msg = check.escapeHtml(body.message);
           if (typeof body.body === 'object' && Object.keys(body.body).length) {
             msg += "<br/>";
             ref = body.body;
             for (k in ref) {
               v = ref[k];
-              msg += '<span style="color:red">' + k.toString() + "</span>: " + v.toString() + "<br/>";
+              msg += '<span style="color:red">' + (check.escapeHtml(k.toString())) + "</span>: " + (check.escapeHtml(v.toString())) + "<br/>";
             }
           } else if (typeof body.body === 'string' && body.body !== "") {
-            msg += '<br/><span style="color:red">' + body.body + '</span>';
+            msg += '<br/><span style="color:red">' + (check.escapeHtml(body.body)) + '</span>';
           }
           if (config.debug && body.stack) {
-            if ((ref1 = body.we_cause) != null ? ref1.stack : void 0) {
-              msg += "<br/>" + body.we_cause.stack.split("<br/>");
-            } else {
-              msg += "<br/>" + body.stack.split("<br/>");
-            }
+            stack = ((ref1 = body.we_cause) != null ? ref1.stack : void 0) ? body.we_cause.stack : body.stack;
+            msg += "<br/>" + (check.escapeHtml(stack)).replace(/\n/g, '<br/>');
           }
           body = msg;
         } else {
@@ -110,7 +107,7 @@ module.exports = function(env) {
       body = body.toString();
       res.setHeader('Content-Type', "text/html; charset=utf-8");
       res.setHeader('Content-Length', Buffer.byteLength(body));
-      return body;
+      return cb(null, body);
     }
   };
   return {

@@ -1,5 +1,20 @@
-var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+var escapeHtml,
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   hasProp = {}.hasOwnProperty;
+
+escapeHtml = function(text) {
+  var map;
+  map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, function(m) {
+    return map[m];
+  });
+};
 
 module.exports = function(env) {
   var CheckError, _check, _clone, check;
@@ -128,7 +143,7 @@ module.exports = function(env) {
     formats = arguments;
     return (function(_this) {
       return function() {
-        var argformat, args, callback, error, i;
+        var argformat, args, callback, e, err, error, error1, i;
         args = Array.prototype.slice.call(arguments);
         callback = args.pop();
         if (args.length !== formats.length) {
@@ -144,7 +159,16 @@ module.exports = function(env) {
         if (error.failed()) {
           return callback(error);
         }
-        return checked.apply(_this, arguments);
+        try {
+          return checked.apply(_this, arguments);
+        } catch (error1) {
+          e = error1;
+          err = new Error('Uncaught exception: ' + e.message);
+          if (e.stack) {
+            err.stack = e.stack;
+          }
+          return callback(err);
+        }
       };
     })(this);
   };
@@ -160,6 +184,7 @@ module.exports = function(env) {
   };
   check.Error = CheckError;
   check.nullv = {};
+  check.escapeHtml = escapeHtml;
   check.format = {
     mail: /^[a-zA-Z0-9._%\-\+]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/,
     provider: /^[a-zA-Z0-9._\-]{2,}$/,

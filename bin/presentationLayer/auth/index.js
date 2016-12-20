@@ -356,7 +356,7 @@ module.exports = function(env) {
         })(this));
       });
       return env.server.get(env.config.base + '/auth/:provider', function(req, res, next) {
-        var callback, domain, e, key, oauthv, options, origin, provider_conf, ref, ref_origin, urlinfos;
+        var callback, domain, e, error, key, oauthv, options, origin, provider_conf, ref, ref_origin, urlinfos;
         res.setHeader('Content-Type', 'text/html');
         domain = null;
         origin = null;
@@ -389,8 +389,8 @@ module.exports = function(env) {
             if (typeof options !== 'object') {
               return next(new env.utilities.check.Error('Options must be an object'));
             }
-          } catch (_error) {
-            e = _error;
+          } catch (error) {
+            e = error;
             return next(new env.utilities.check.Error('Error in request parameters'));
           }
         }
@@ -500,11 +500,12 @@ module.exports = function(env) {
             return callback(err);
           }
           isJson = function(value) {
+            var error1;
             try {
               JSON.stringify(value);
               return true;
-            } catch (_error) {
-              e = _error;
+            } catch (error1) {
+              e = error1;
               return false;
             }
           };

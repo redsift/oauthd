@@ -10,7 +10,7 @@ Q = require('q');
 
 module.exports = function(env) {
   return function(plugin_name) {
-    var defer, e, folder_name;
+    var defer, e, error, folder_name;
     defer = Q.defer();
     if (plugin_name === "") {
       env.debug('Please provide a plugin name to uninstall.');
@@ -35,8 +35,8 @@ module.exports = function(env) {
           return defer.reject(e);
         });
       });
-    } catch (_error) {
-      e = _error;
+    } catch (error) {
+      e = error;
       env.debug('An error occured: ' + e.message);
     }
     return defer.promise;

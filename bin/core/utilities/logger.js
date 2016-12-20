@@ -10,15 +10,15 @@ module.exports = function(env) {
     }
 
     Logger.prototype.log = function() {
-      var arg, args, e, i, len, prepend;
+      var arg, args, e, error, i, len, prepend;
       prepend = "### " + (new Date).toUTCString() + "\n";
       args = [];
       for (i = 0, len = arguments.length; i < len; i++) {
         arg = arguments[i];
         try {
           args.push(JSON.stringify(arg));
-        } catch (_error) {
-          e = _error;
+        } catch (error) {
+          e = error;
           args.push('[[JSON str error]]');
         }
       }

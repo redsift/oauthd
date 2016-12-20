@@ -5,22 +5,64 @@ crypto = require('crypto');
 async = require('async');
 
 module.exports = function(env) {
-  var config, data, exit, oldhgetall, oldkeys, redis;
+  var Redis, _multi, config, data, exit, oldhgetall, oldkeys, redis, redis_options;
   data = {};
+  config = env.config;
   if (env.mode !== 'test') {
-    redis = require('redis');
+    Redis = require('ioredis');
+    redis_options = {
+      port: config.redis.port || 6379,
+      host: config.redis.host || '127.0.0.1',
+      db: config.redis.database || 0,
+      retryStrategy: (function(_this) {
+        return function(times) {
+          return Math.min(times * 100, 2000);
+        };
+      })(this)
+    };
+    if (config.redis.password) {
+      redis_options.password = config.redis.password;
+    }
+    data.redis = new Redis(redis_options);
+    _multi = data.redis.multi;
+    data.redis.multi = (function(_this) {
+      return function(commands) {
+        var _exec, pipeline;
+        pipeline = commands ? _multi.call(data.redis, commands) : _multi.call(data.redis);
+        _exec = pipeline.exec;
+        pipeline.exec = function(cb) {
+          return _exec.call(pipeline, function(err, res) {
+            var k, r;
+            if (err) {
+              return cb(err);
+            }
+            for (k in res) {
+              r = res[k];
+              if (r[0]) {
+                err = r[0];
+              }
+              res[k] = r[1];
+            }
+            if (err) {
+              return cb(err);
+            }
+            return cb(null, res);
+          });
+        };
+        return pipeline;
+      };
+    })(this);
   } else {
     redis = require('fakeredis');
+    data.redis = redis.createClient(config.redis.port || 6379, config.redis.host || '127.0.0.1', config.redis.options || {});
+    if (config.redis.password) {
+      data.redis.auth(config.redis.password);
+    }
+    if (config.redis.database) {
+      data.redis.select(config.redis.database);
+    }
   }
-  config = env.config;
   exit = env.utilities.exit;
-  data.redis = redis.createClient(config.redis.port || 6379, config.redis.host || '127.0.0.1', config.redis.options || {});
-  if (config.redis.password) {
-    data.redis.auth(config.redis.password);
-  }
-  if (config.redis.database) {
-    data.redis.select(config.redis.database);
-  }
   oldkeys = data.redis.keys;
   data.redis.keys = function(pattern, cb) {
     var cursor, keys_response;
@@ -96,13 +138,13 @@ module.exports = function(env) {
     return console.log(err);
   });
   exit.push('Redis db', function(callback) {
-    var e;
+    var e, error;
     try {
       if (data.redis) {
         data.redis.quit();
       }
-    } catch (_error) {
-      e = _error;
+    } catch (error) {
+      e = error;
       return callback(e);
     }
     return callback();

@@ -25,23 +25,24 @@ module.exports = function(env) {
       process.kill(process.pid, 'SIGUSR2');
     });
   });
-  process.on('uncaughtException', function(err) {
-    if (closing) {
-      console.error('--- uncaughtException WHILE CLOSING');
-    } else {
-      console.error('--- uncaughtException', (new Date).toGMTString());
-      exit.err = err;
-    }
-    console.error(err.stack.toString());
-    console.error('--- node exiting now...');
-    if (closing) {
-      process.exit(2);
-    } else {
-      cleanExit(function() {
-        process.exit(1);
-      });
-    }
-  });
+
+  /*
+  	process.on 'uncaughtException', (err) ->
+  		if closing
+  			console.error '--- uncaughtException WHILE CLOSING'
+  		else
+  			console.error '--- uncaughtException', (new Date).toGMTString()
+  			exit.err = err
+  		console.error err.stack.toString()
+  		console.error '--- node exiting now...'
+  		if closing
+  			process.exit 2
+  		else
+  			cleanExit ->
+  				process.exit 1
+  				return
+  		return
+   */
   exit.push = function(name, f) {
     closing_stack.push(function(callback) {
       env.debug('Closing `' + name + '`...');

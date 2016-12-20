@@ -114,7 +114,7 @@ module.exports = function(env) {
       }
       prefix = 'a:' + idapp + ':';
       return env.data.redis.mget([prefix + 'name', prefix + 'key', prefix + 'secret', prefix + 'date', prefix + 'owner', prefix + 'backend:name', prefix + 'backend:value'], function(err, replies) {
-        var backend, e, ref, server_side_only;
+        var backend, e, error, ref, server_side_only;
         if (err) {
           return callback(err);
         }
@@ -124,8 +124,8 @@ module.exports = function(env) {
           };
           try {
             backend.value = JSON.parse(replies[6]);
-          } catch (_error) {
-            e = _error;
+          } catch (error) {
+            e = error;
             backend.value = {};
           }
         }
@@ -253,7 +253,7 @@ module.exports = function(env) {
         return callback(err);
       }
       if (!idapp) {
-        return callback(new check.Error('Unknown key: "' + key + '" idapp "' + idapp + '"'));
+        return callback(new check.Error('Unknown key: ' + key));
       }
       return env.data.redis.smembers('a:' + idapp + ':domains', callback);
     });
@@ -392,15 +392,15 @@ module.exports = function(env) {
         }
         return App.getBackendById(idapp, function(err, backend) {
           return env.data.redis.mget('a:' + idapp + ':k:' + provider, function(err, res) {
-            var e, ref, response_type;
+            var e, error, ref, response_type;
             if (err) {
               return callback(err);
             }
             if (res[0]) {
               try {
                 res[0] = JSON.parse(res[0]);
-              } catch (_error) {
-                e = _error;
+              } catch (error) {
+                e = error;
                 if (err) {
                   return callback(err);
                 }
@@ -477,15 +477,15 @@ module.exports = function(env) {
         return callback(new check.Error('Unknown key'));
       }
       return env.data.redis.mget('a:' + idapp + ':k:' + provider, 'a:' + idapp + ':ktype:' + provider, function(err, res) {
-        var e;
+        var e, error;
         if (err) {
           return callback(err);
         }
         if (res[0]) {
           try {
             res[0] = JSON.parse(res[0]);
-          } catch (_error) {
-            e = _error;
+          } catch (error) {
+            e = error;
             if (err) {
               return callback(err);
             }
@@ -542,11 +542,11 @@ module.exports = function(env) {
         return callback(new check.Error('Unknown key'));
       }
       return env.data.redis.get('a:' + idapp + ':k:' + provider, function(err, raw_keyset) {
-        var e, keyset;
+        var e, error, keyset;
         try {
           return keyset = JSON.parse(raw_keyset);
-        } catch (_error) {
-          e = _error;
+        } catch (error) {
+          e = error;
           return keyset = {};
         } finally {
           env.data.redis.del('a:' + idapp + ':k:' + provider, 'a:' + idapp + ':ktype:' + provider, 'a:' + idapp + ':kdate:' + provider, function(err, res) {

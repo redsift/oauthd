@@ -28,7 +28,9 @@ module.exports = function(scaffolding) {
           v = value[k];
           obj[key][k] = v;
         }
-        return jf.writeFile(process.cwd() + '/plugins.json', obj, function(err) {
+        return jf.writeFile(process.cwd() + '/plugins.json', obj, {
+          spaces: 2
+        }, function(err) {
           if (err) {
             return defer.reject(err);
           }

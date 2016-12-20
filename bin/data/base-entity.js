@@ -16,6 +16,8 @@ module.exports = function(env) {
 
     Entity.properties = void 0;
 
+    Entity._cachedTypedKeys = void 0;
+
     Entity.extendProperties = function(array) {
       var k, prop, results;
       if ((this.properties != null) && Array.isArray(this.properties)) {
@@ -33,11 +35,11 @@ module.exports = function(env) {
     };
 
     Entity.findById = function(id) {
-      var defer, lapin;
+      var defer, inst;
       defer = Q.defer();
-      lapin = new this(id);
-      lapin.load().then(function() {
-        return defer.resolve(lapin);
+      inst = new this(id);
+      inst.load().then(function() {
+        return defer.resolve(inst);
       }).fail(function(e) {
         return defer.reject(e);
       });
@@ -128,6 +130,9 @@ module.exports = function(env) {
 
     Entity.prototype.typedKeys = function() {
       var defer, keys;
+      if (this.constructor._cachedTypedKeys) {
+        return Q(this.constructor._cachedTypedKeys);
+      }
       defer = Q.defer();
       keys = {};
       this.keys().then((function(_this) {
@@ -148,7 +153,8 @@ module.exports = function(env) {
             if (e) {
               return defer.reject(e);
             } else {
-              return defer.resolve(keys);
+              defer.resolve(keys);
+              return _this.constructor._cachedTypedKeys = keys;
             }
           });
         };
@@ -283,9 +289,8 @@ module.exports = function(env) {
                   return cb();
                 });
               }, function(cb) {
-                var count, index_field, k, ref1, results, v, value;
+                var count, index_field, k, ref1, v, value;
                 ref1 = _this.props;
-                results = [];
                 for (key in ref1) {
                   value = ref1[key];
                   index_field = _this.constructor.indexes[key];
@@ -321,9 +326,8 @@ module.exports = function(env) {
                   if (opts.ttl != null) {
                     multi.expire(_this.prefix() + key, opts.ttl);
                   }
-                  results.push(cb());
                 }
-                return results;
+                return cb();
               }
             ], function() {
               return multi.exec(function(e, res) {

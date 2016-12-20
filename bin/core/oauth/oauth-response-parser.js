@@ -81,11 +81,11 @@ module.exports = function(env) {
     };
 
     OAuthResponseParser.prototype._parseBody = function(parseFunc) {
-      var ex;
+      var error, ex;
       try {
         this.body = parseFunc(this._unparsedBody);
-      } catch (_error) {
-        ex = _error;
+      } catch (error) {
+        ex = error;
         return this._setError('Unable to parse response');
       }
       if (this.body == null) {

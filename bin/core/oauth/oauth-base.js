@@ -97,7 +97,7 @@ module.exports = function(env) {
     };
 
     OAuthBase.prototype._buildServerRequestUrl = function(url, req, configurationUrl) {
-      if (typeof req.query === 'function' && typeof req.query() === 'string') {
+      if (typeof req.query === 'function' && typeof req.query() === 'string' && req.query().length > 0 && url.indexOf('?') === -1) {
         url += "?" + req.query();
       }
       if (!url.match(/^[a-z]{2,16}:\/\//)) {

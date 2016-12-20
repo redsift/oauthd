@@ -61,13 +61,11 @@ module.exports = function(env) {
   };
   global_interface = void 0;
   pluginsEngine.load = function(plugin_name) {
-    var e, plugin_data;
+    var e, error, plugin_data;
     try {
       plugin_data = require(env.pluginsEngine.cwd + '/plugins/' + plugin_name + '/plugin.json');
-    } catch (_error) {
-      e = _error;
-      env.debug('Error loading plugin.json (' + plugin_name + ')');
-      env.debug(e.message.yellow);
+    } catch (error) {
+      e = error;
       plugin_data = {
         name: plugin_name
       };
@@ -89,7 +87,11 @@ module.exports = function(env) {
     }
   };
   loadPlugin = function(plugin_data) {
-    var e, plugin, ref, ref1, ref2;
+    var e, error, plugin, ref, ref1;
+    if (!fs.existsSync(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name)) {
+      env.debug("Cannot find addon " + plugin_data.name);
+      return;
+    }
     env.debug("Loading " + plugin_data.name.blue);
     try {
       plugin = require(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name + plugin_data.main)(env);
@@ -100,10 +102,10 @@ module.exports = function(env) {
         pluginsEngine.plugin[plugin_data.name] = plugin;
         return (ref1 = pluginsEngine.plugin[plugin_data.name]) != null ? ref1.plugin_config = plugin_data : void 0;
       }
-    } catch (_error) {
-      e = _error;
+    } catch (error) {
+      e = error;
       env.debug("Error while loading plugin " + plugin_data.name);
-      return env.debug(e.message.yellow + ' at line ' + ((ref2 = e.lineNumber) != null ? ref2.red : void 0));
+      return env.debug(e.stack.yellow);
     }
   };
   pluginsEngine.init = function(cwd, callback) {

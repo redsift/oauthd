@@ -170,9 +170,9 @@ module.exports = function(args, options) {
             });
           } else {
             scaffolding.plugins.info.getPluginsJson().then(function(plugins) {
-              var plugins_data;
-              plugins_data = Object.values(plugins);
-              return chainPluginsInstall(plugins_data);
+              return chainPluginsInstall(Object.keys(plugins).map(function(k) {
+                return plugins[k];
+              }));
             }).fail(function(e) {
               return console.log('An error occured:', e.message);
             });

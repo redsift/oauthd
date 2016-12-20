@@ -251,7 +251,9 @@ module.exports = function(env) {
           return env.scaffolding.plugins.info.getPluginsJson({
             activeOnly: true
           }).then(function(data) {
-            return res.send(Object.values(data));
+            return res.send(Object.keys(data).map(function(key) {
+              return data[key];
+            }));
           }).fail(function(e) {
             env.debug(e);
             return res.send(400, 'Error reading the plugins data');

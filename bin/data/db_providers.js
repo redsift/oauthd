@@ -143,7 +143,7 @@ module.exports = function(env) {
     return fs.readFile(provider, {
       encoding: 'utf-8'
     }, function(err, data) {
-      var content;
+      var content, error;
       if ((err != null ? err.code : void 0) === 'ENOENT') {
         return callback(new check.Error('No such provider: ' + provider_name));
       }
@@ -153,8 +153,8 @@ module.exports = function(env) {
       content = null;
       try {
         content = JSON.parse(data);
-      } catch (_error) {
-        err = _error;
+      } catch (error) {
+        err = error;
         return callback(err);
       }
       content.provider = provider_name;
@@ -169,8 +169,10 @@ module.exports = function(env) {
     if (Path.relative(providers_dir, provider).substr(0, 2) === "..") {
       return callback(new check.Error('Not authorized'));
     }
-    return fs.readFile(provider, function(err, data) {
-      var content;
+    return fs.readFile(provider, {
+      encoding: 'utf-8'
+    }, function(err, data) {
+      var content, error;
       if ((err != null ? err.code : void 0) === 'ENOENT') {
         return callback(new check.Error('No settings infos for ' + provider_name));
       }
@@ -180,8 +182,8 @@ module.exports = function(env) {
       content = null;
       try {
         content = JSON.parse(data);
-      } catch (_error) {
-        err = _error;
+      } catch (error) {
+        err = error;
         return callback(err);
       }
       content.provider = provider_name;
