@@ -30,12 +30,12 @@ module.exports = (env) ->
 	# create a new app
 	App.create = (data, user, callback) ->
 		err = new check.Error
-		err.check data, name:/^.{3,50}$/,domains:['none','array']
+		err.check data, name:/^.{3,80}$/,domains:['none','array']
 		if err.failed()
 			return callback new check.Error "You must specify a name and at least one domain for your application."
 
-		key = env.data.generateUid()
-		secret = env.data.generateUid()
+		key = if data.key then data.key else env.data.generateUid()
+		secret = if data.secret then data.secret else env.data.generateUid()
 		err = new check.Error
 		if data.domains
 			for domain in data.domains
@@ -109,7 +109,7 @@ module.exports = (env) ->
 				callback null, id:idapp, name:replies[0], key:replies[1], secret:replies[2], date:replies[3], owner: replies[4], server_side_only: server_side_only, backend: backend
 
 	# update app infos
-	App.update = check check.format.key, name:['none',/^.{3,50}$/], domains:['none','array'], (key, data, callback) ->
+	App.update = check check.format.key, name:['none',/^.{3,80}$/], domains:['none','array'], (key, data, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp
@@ -170,7 +170,7 @@ module.exports = (env) ->
 	App.getDomains = check check.format.key, (key, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
-			return callback new check.Error 'Unknown key' unless idapp
+			return callback new check.Error('Unknown key: ' + key) unless idapp
 			env.data.redis.smembers 'a:' + idapp + ':domains', callback
 
 	# update all authorized domains of the app

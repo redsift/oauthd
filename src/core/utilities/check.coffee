@@ -170,6 +170,6 @@ module.exports = (env) ->
 	check.format =
 		mail: /^[a-zA-Z0-9._%\-\+]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$/
 		provider: /^[a-zA-Z0-9._\-]{2,}$/
-		key: /^[a-zA-Z0-9\-_]{23,27}$/
+		key: /^[a-zA-Z0-9\-_\.]{23,80}$/
 
 	check
