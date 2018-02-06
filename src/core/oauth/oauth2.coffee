@@ -75,6 +75,7 @@ module.exports = (env) ->
 						base: @_provider.baseurl
 						request: requestclone
 						refresh_token: response.body.refresh_token
+						response_body: response.body
 					@_setExtraResponseParameters(configuration, response, result)
 					@_setExtraRequestAuthorizeParameters(req, result)
 					callback null, result
