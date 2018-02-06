@@ -104,7 +104,7 @@ module.exports = (env) ->
 
 	data.redis.on 'error', (err) ->
 		data.redis.last_error = 'Error while connecting to redis DB (' + err.message + ')'
-		console.error data.redis.last_error
+		console.log err
 
 	exit.push 'Redis db', (callback) ->
 		try
