@@ -7,7 +7,7 @@ machine:
 general:
   branches:
     only:
-      - patched
+      - redsift
 
 dependencies:
   pre:
@@ -19,6 +19,6 @@ test:
 
 deployment:
   prod:
-    branch: patched
+    branch: redsift
     commands:
       - "./circle_ci_trigger_build"
