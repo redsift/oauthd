@@ -445,8 +445,23 @@ describe 'Data - apps module', () ->
 		], () ->
 			done()
 
-	xit 'Application domain verification - env.data.apps.checkDomain', (done) ->
-		done()
+	it 'Application domain verification - env.data.apps.checkDomain', (done) ->
+		uid = 'appdomainverificationtest'
+		env.data.apps.create {name: 'myapp'}, {id: 13}, (err, app) ->
+			env.data.apps.addDomain app.key, 'somedomain', (err) ->
+				expect(err).toBeUndefined()
+				env.data.apps.checkDomain app.key, 'somedomain', (err, valid) ->
+					expect(err).toBeNull()
+					expect(valid).toBe(true)
+					done()
+
+	it 'Application domain verification - env.data.apps.checkDomain (private ip)', (done) ->
+		uid = 'appdomainverificationprivateiptest'
+		env.data.apps.create {name: 'myapp'}, {id: 13}, (err, app) ->
+			env.data.apps.checkDomain app.key, '10.10.10.1', (err, valid) ->
+				expect(err).toBeNull()
+				expect(valid).toBe(true)
+				done()
 
 	it 'Application owner retrieval - env.data.apps.getOwner', (done) ->
 		uid = 'appownerretrievaltestest'
