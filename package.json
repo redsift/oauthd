@@ -30,7 +30,7 @@
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-subgrunt": "^1.2.0",
-    "mock-fs": "^3.12.1",
+    "mock-fs": "^4.4.2",
     "rewire": "^2.5.2"
   },
   "keywords": [],
