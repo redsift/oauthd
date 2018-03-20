@@ -2,7 +2,7 @@ var Url, async, restify;
 
 restify = require('restify');
 
-Url = require('url');
+Url = require('url-parse');
 
 async = require('async');
 
@@ -697,10 +697,10 @@ module.exports = function(env) {
       if (err) {
         return callback(err);
       }
-      domain = Url.parse(domain_str);
+      domain = Url(domain_str);
       if (!domain.protocol) {
         domain_str = 'http://' + domain_str;
-        domain = Url.parse(domain_str);
+        domain = Url(domain_str);
       }
       if (domain.host === config.url.host || /^(?:10|127|172\.(?:1[6-9]|2[0-9]|3[01])|192\.168)\..*/.test(domain.host)) {
         return callback(null, true);
@@ -711,7 +711,7 @@ module.exports = function(env) {
         if (!vdomain_str.match(/^.{1,}:\/\//)) {
           vdomain_str = '.://' + vdomain_str;
         }
-        vdomain = Url.parse(vdomain_str);
+        vdomain = Url(vdomain_str);
         if (vdomain.protocol !== '.:' && vdomain.protocol !== domain.protocol) {
           continue;
         }

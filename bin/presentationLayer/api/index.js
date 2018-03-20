@@ -8,7 +8,7 @@ fs = require('fs');
 
 Path = require('path');
 
-Url = require('url');
+Url = require('url-parse');
 
 engine = {};
 
@@ -224,7 +224,7 @@ module.exports = function(env) {
                   req.params.provider = 'default';
                 }
                 req.url = '/' + req.params.provider + '/logo.png';
-                req._url = Url.parse(req.url);
+                req._url = Url(req.url);
                 req._path = req._url._path;
                 return next();
               });
@@ -238,7 +238,7 @@ module.exports = function(env) {
       env.server.get('/api/providers/:provider/:file', env.bootPathCache(), ((function(_this) {
         return function(req, res, next) {
           req.url = '/' + req.params.provider + '/' + req.params.file;
-          req._url = Url.parse(req.url);
+          req._url = Url(req.url);
           req._path = req._url._path;
           return next();
         };

@@ -1,6 +1,6 @@
 var UAParser, Url, async, restify;
 
-Url = require('url');
+Url = require('url-parse');
 
 async = require('async');
 
@@ -166,7 +166,7 @@ module.exports = function(env) {
         return function(e, r, response_type) {
           var body, browser, chromeext, redirect_infos, ref1, uaparser, view;
           if (!e && data.redirect_uri) {
-            redirect_infos = Url.parse(env.fixUrl(data.redirect_uri), true);
+            redirect_infos = Url(env.fixUrl(data.redirect_uri), true);
             if (redirect_infos.hostname === 'oauth.io') {
               e = new env.utilities.check.Error('OAuth.redirect url must NOT be "oauth.io"');
             }
@@ -361,7 +361,7 @@ module.exports = function(env) {
         domain = null;
         origin = null;
         ref = env.fixUrl(req.headers['referer'] || req.headers['origin'] || req.params.d || req.params.redirect_uri || "");
-        urlinfos = Url.parse(ref);
+        urlinfos = Url(ref);
         if (!urlinfos.hostname) {
           if (ref) {
             if (req.params.redirect_uri) {
