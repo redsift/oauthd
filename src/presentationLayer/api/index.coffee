@@ -2,7 +2,7 @@ restify = require 'restify'
 async = require 'async'
 fs = require 'fs'
 Path = require 'path'
-Url = require 'url'
+Url = require 'url-parse'
 
 engine = {}
 module.exports = (env) ->
@@ -156,7 +156,7 @@ module.exports = (env) ->
 						if not exists
 							req.params.provider = 'default'
 						req.url = '/' + req.params.provider + '/logo.png'
-						req._url = Url.parse req.url
+						req._url = Url req.url
 						req._path = req._url._path
 						next()
 					), restify.serveStatic
@@ -166,7 +166,7 @@ module.exports = (env) ->
 		# get a provider file
 		env.server.get '/api/providers/:provider/:file', env.bootPathCache(), ((req, res, next) =>
 				req.url = '/' + req.params.provider + '/' + req.params.file
-				req._url = Url.parse req.url
+				req._url = Url req.url
 				req._path = req._url._path
 				next()
 			), restify.serveStatic

@@ -1,4 +1,4 @@
-Url = require 'url'
+Url = require 'url-parse'
 async = require 'async'
 UAParser = require 'ua-parser-js'
 restify = require 'restify'
@@ -109,7 +109,7 @@ module.exports = (env) ->
 
 		clientCallback = (data, req, res, next) -> (e, r, response_type) -> #data:state,provider,redirect_uri,origin
 			if not e and data.redirect_uri
-				redirect_infos = Url.parse env.fixUrl(data.redirect_uri), true
+				redirect_infos = Url env.fixUrl(data.redirect_uri), true
 				if redirect_infos.hostname == 'oauth.io'
 					e = new env.utilities.check.Error 'OAuth.redirect url must NOT be "oauth.io"'
 			body = env.utilities.formatters.build e || r
@@ -236,7 +236,7 @@ module.exports = (env) ->
 			domain = null
 			origin = null
 			ref = env.fixUrl(req.headers['referer'] || req.headers['origin'] || req.params.d || req.params.redirect_uri || "")
-			urlinfos = Url.parse ref
+			urlinfos = Url ref
 			if not urlinfos.hostname
 				if ref
 					ref_origin = 'redirect_uri' if req.params.redirect_uri
