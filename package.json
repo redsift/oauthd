@@ -20,7 +20,7 @@
     "test": "jasmine-node --coffee tests/spec"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^16.1.1",
     "coffee-script": "^1.11.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
@@ -45,13 +45,13 @@
     "express": "^4.14.0",
     "express-session": "^1.14.2",
     "fakeredis": "^1.0.3",
+    "ioredis": "^2.4.0",
     "jsonfile": "^2.4.0",
     "minimist": "^1.2.0",
     "ncp": "^2.0.0",
     "prompt": "^1.0.0",
     "q": "^1.4.1",
     "qs": "^6.3.0",
-    "ioredis": "^2.4.0",
     "request": "^2.78.0",
     "restify": "^4.3.0",
     "rimraf": "^2.5.4",
