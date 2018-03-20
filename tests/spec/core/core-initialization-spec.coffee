@@ -71,12 +71,6 @@ describe 'Core - utilities init', () ->
 		expect(env.utilities.logger).toBeDefined()
 		done()
 
-	it 'env.utilities should contain mailer object', (done) ->
-		env = {}
-		coreModule(env).initUtilities()
-		expect(env.utilities.mailer).toBeDefined()
-		done()
-
 describe 'Core - oauth init', () ->
 
 	# initOAuth
