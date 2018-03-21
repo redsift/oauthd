@@ -2,7 +2,7 @@ machine:
   environment: 
     CIRCLE_REVERSE_DEPENDENCIES: oauthd-service
   node:
-    version: 6.9.2
+    version: 8.10.0
 
 general:
   branches:
