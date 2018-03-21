@@ -1,10 +1,10 @@
 language: node_js
 node_js:
- - "7.0"
+ - "8.0"
 services:
  - redis
 before_install:
- - "npm install -g grunt-cli coffee-script jasmine-node"
+ - "npm install -g grunt-cli jasmine-node"
 install:
  - "npm install"
 script:

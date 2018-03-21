@@ -17,11 +17,10 @@
     "oauthd": "./oauthd"
   },
   "scripts": {
-    "test": "jasmine-node --coffee tests/spec"
+    "test": "./node_modules/.bin/jasmine-node --coffee tests/spec"
   },
   "devDependencies": {
     "browserify": "^16.1.1",
-    "coffee-script": "^1.11.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-coffee": "^1.0.0",
@@ -30,7 +29,8 @@
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-subgrunt": "^1.2.0",
-    "mock-fs": "^3.12.1",
+    "jasmine-node": "git+https://github.com/mhevery/jasmine-node.git#Jasmine2.0",
+    "mock-fs": "^4.4.2",
     "rewire": "^2.5.2"
   },
   "keywords": [],
