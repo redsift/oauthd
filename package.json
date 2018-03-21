@@ -1,7 +1,7 @@
 {
   "name": "oauthd",
   "description": "OAuth that just works.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "homepage": "http://oauth-io.github.io/oauthd",
   "author": "OAuth team <team@oauth.io>",
   "repository": {
@@ -44,7 +44,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-session": "^1.14.2",
-    "fakeredis": "^1.0.3",
+    "fakeredis": "^2.0.0",
     "ioredis": "^2.4.0",
     "jsonfile": "^4.0.0",
     "minimist": "^1.2.0",
