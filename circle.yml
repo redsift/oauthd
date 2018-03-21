@@ -1,6 +1,4 @@
 machine: 
-  environment: 
-    CIRCLE_REVERSE_DEPENDENCIES: oauthd-service
   node:
     version: 8.10.0
 
@@ -15,10 +13,9 @@ dependencies:
 
 test: 
   override:
+    - "grunt"
     - "npm test"
 
 deployment: 
   prod: 
     branch: patched
-    commands: 
-      - "./circle_ci_trigger_build"
