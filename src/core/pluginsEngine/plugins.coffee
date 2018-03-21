@@ -1,5 +1,4 @@
 async = require 'async'
-jf = require 'jsonfile'
 fs = require 'fs'
 colors = require 'colors'
 Q = require 'q'

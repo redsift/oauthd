@@ -1,6 +1,5 @@
 fs = require 'fs'
 rimraf = require 'rimraf'
-jf = require 'jsonfile'
 Q = require 'q'
 
 module.exports = (env) ->

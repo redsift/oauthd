@@ -1,6 +1,4 @@
-jf = require 'jsonfile'
 Q = require 'q'
-
 
 module.exports = (env) ->
 	exec = env.exec
