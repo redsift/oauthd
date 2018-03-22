@@ -1,6 +1,4 @@
-var Q, jf;
-
-jf = require('jsonfile');
+var Q;
 
 Q = require('q');
 

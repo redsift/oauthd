@@ -1,10 +1,8 @@
-var Q, cloned_nb, colors, fs, jf, rimraf;
+var Q, cloned_nb, colors, fs, rimraf;
 
 fs = require('fs');
 
 rimraf = require('rimraf');
-
-jf = require('jsonfile');
 
 Q = require('q');
 

@@ -172,6 +172,9 @@ module.exports = function(env) {
             }
           }
           body = env.utilities.formatters.build(e || r);
+          if (body.status === 'error') {
+            return next(new restify.InvalidArgumentError(body.message));
+          }
           if (data.state) {
             body.state = data.state;
           }

@@ -1,8 +1,6 @@
-var Q, Url, async, colors, fs, jf, restify;
+var Q, Url, async, colors, fs, restify;
 
 async = require('async');
-
-jf = require('jsonfile');
 
 fs = require('fs');
 

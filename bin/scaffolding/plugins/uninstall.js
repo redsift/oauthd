@@ -1,10 +1,8 @@
-var Q, fs, jf, rimraf;
+var Q, fs, rimraf;
 
 fs = require('fs');
 
 rimraf = require('rimraf');
-
-jf = require('jsonfile');
 
 Q = require('q');
 
