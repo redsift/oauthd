@@ -113,6 +113,8 @@ module.exports = (env) ->
 				if redirect_infos.hostname == 'oauth.io'
 					e = new env.utilities.check.Error 'OAuth.redirect url must NOT be "oauth.io"'
 			body = env.utilities.formatters.build e || r
+			if body.status == 'error'
+				return next new restify.InvalidArgumentError body.message
 			body.state = data.state if data.state
 			body.provider = data.provider.toLowerCase() if data.provider
 			if data.redirect_type == 'server'
