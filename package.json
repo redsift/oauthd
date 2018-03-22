@@ -17,6 +17,7 @@
     "oauthd": "./oauthd"
   },
   "scripts": {
+    "install": "./node_modules/.bin/grunt",
     "test": "./node_modules/.bin/jasmine-node --coffee tests/spec"
   },
   "devDependencies": {
