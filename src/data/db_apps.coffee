@@ -407,7 +407,7 @@ module.exports = (env) ->
 				domain_str = 'http://' + domain_str
 				domain = Url domain_str
 			# white listing private ips
-			return callback null, true if domain.host == config.url.host || /^(?:10|127|172\.(?:1[6-9]|2[0-9]|3[01])|192\.168)\..*/.test(domain.host)
+			return callback null, true if domain.host == config.url.host || /^(?:10|127|172\.(?:1[6-9]|2[0-9]|3[01])|192\.168)\..*/.test(domain.host) || domain.hostname == 'localhost'
 			for vdomain_str in domains
 				vdomain_str = vdomain_str.replace '*', '.'
 				if not vdomain_str.match /^.{1,}:\/\//
