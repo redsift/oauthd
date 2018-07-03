@@ -2,14 +2,14 @@ var me = {
     fetch: [
 
         function(fetched_elts) {
-            return '/method/users.get?fields=bdate,sex,photo_max_orig,contacts';
+            return '/method/users.get?fields=bdate,sex,photo_max_orig,contacts&v=5.74';
         }
 
     ],
     params: {},
     fields: {
         id: function(me) {
-            return me.response && me.response[0] && me.response[0].uid || undefined;
+            return me.response && me.response[0] && me.response[0].id || undefined;
         },
         name: function(me) {
             return me.response && me.response[0] ? me.response[0].first_name + ' ' + me.response[0].last_name : undefined;
@@ -45,7 +45,7 @@ var me = {
             return me.response && me.response[0] && me.response[0].mobile_phone || undefined;
         },
         url: function(me) {
-            return "https://vk.com/id" + me.response[0].uid;
+            return "https://vk.com/id" + me.response[0].id;
         }
     }
 };
