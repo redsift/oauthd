@@ -17,12 +17,14 @@
     "oauthd": "./oauthd"
   },
   "scripts": {
+    "install": "./node_modules/.bin/grunt",
     "test": "./node_modules/.bin/jasmine-node --coffee tests/spec"
   },
   "devDependencies": {
     "browserify": "^16.1.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-coffee": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
