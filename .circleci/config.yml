@@ -3,7 +3,7 @@ jobs:
   build:
     shell: /bin/bash
     docker:
-      - image: circleci/node:8.11.3
+      - image: circleci/node:8.10.0
     steps:
       - checkout
       - run: npm i -g grunt-cli
