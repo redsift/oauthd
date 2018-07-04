@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: npm install
       - run: npm i grunt-cli
-      - run: grunt
+      - run: ./node_modules/.bin/grunt
       - run: npm test
 
 workflows:
