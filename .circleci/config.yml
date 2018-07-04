@@ -3,11 +3,13 @@ jobs:
   build:
     shell: /bin/bash
     docker:
-      - image: circleci/node:8.10.0
+      - image: quay.io/redsift/nodeos
     steps:
       - checkout
-      - run: pwd
-      - run: npm i && npm i grunt-cli && ./node_modules/.bin/grunt && npm run test
+      - run: npm i
+      - run: npm i -g grunt-cli
+      - run: grunt
+      - run: npm run test
 
 workflows:
   version: 2
