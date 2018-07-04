@@ -6,10 +6,8 @@ jobs:
       - image: circleci/node:8.10.0
     steps:
       - checkout
-      - run: npm install
-      - run: npm i grunt-cli
-      - run: ./node_modules/.bin/grunt
-      - run: npm test
+      - run: pwd
+      - run: npm i && npm i grunt-cli && ./node_modules/.bin/grunt && npm run test
 
 workflows:
   version: 2
