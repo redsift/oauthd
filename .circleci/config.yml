@@ -6,7 +6,8 @@ jobs:
       - image: circleci/node:8.10.0
     steps:
       - checkout
-      - run: npm i -g grunt-cli
+      # default user is circleci not root
+      - run: sudo npm i -g grunt-cli
       - run: grunt
       - run: npm test
 
