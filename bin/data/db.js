@@ -128,7 +128,7 @@ module.exports = function(env) {
     });
   };
   data.redis.on('connect', function() {
-    return console.log('managed to connect!');
+    return console.log('Managed to connect to Redis!');
   });
   data.redis.on('reconnecting', function(r) {
     return console.log('reconnecting... ', r.attempt);

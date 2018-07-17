@@ -14,7 +14,7 @@ Url = require('url');
 
 module.exports = function(env) {
   var extended_endpoints, global_interface, loadPlugin, pluginsEngine;
-  env.debug('Initializing plugins engine');
+  console.log('Initializing plugins engine');
   pluginsEngine = {
     plugin: {}
   };
@@ -87,10 +87,10 @@ module.exports = function(env) {
   loadPlugin = function(plugin_data) {
     var e, error, plugin, ref, ref1;
     if (!fs.existsSync(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name)) {
-      env.debug("Cannot find addon " + plugin_data.name);
+      console.error("Cannot find addon " + plugin_data.name);
       return;
     }
-    env.debug("Loading " + plugin_data.name.blue);
+    console.log("Loading " + plugin_data.name.blue);
     try {
       plugin = require(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name + plugin_data.main)(env);
       if (plugin_data.type != null) {
@@ -102,8 +102,8 @@ module.exports = function(env) {
       }
     } catch (error) {
       e = error;
-      env.debug("Error while loading plugin " + plugin_data.name);
-      return env.debug(e.stack.yellow);
+      console.error("Error while loading plugin " + plugin_data.name);
+      return console.error(e.stack.yellow);
     }
   };
   pluginsEngine.init = function(cwd, callback) {
@@ -145,7 +145,7 @@ module.exports = function(env) {
       }
       return callback(null, list);
     }).fail(function(err) {
-      env.debug('An error occured: ' + err);
+      console.error('An error occured: ' + err);
       return callback(err);
     });
   };
