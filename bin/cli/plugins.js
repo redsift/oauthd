@@ -166,7 +166,7 @@ module.exports = function(args, options) {
             }).then(function() {
               return console.log('Done');
             }).fail(function(e) {
-              return console.log('An error occured: '.red + e.message.yellow);
+              return console.log('An error occured: '.red + e);
             });
           } else {
             scaffolding.plugins.info.getPluginsJson().then(function(plugins) {

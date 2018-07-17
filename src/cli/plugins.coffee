@@ -134,7 +134,7 @@ module.exports = (args, options) ->
 						.then () ->
 							console.log 'Done'
 						.fail (e) ->
-							console.log 'An error occured: '.red + e.message.yellow
+							console.log 'An error occured: '.red + e
 				else
 					scaffolding.plugins.info.getPluginsJson()
 						.then (plugins) ->

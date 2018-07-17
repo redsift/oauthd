@@ -13,8 +13,8 @@ module.exports = function(env) {
       if (!error) {
         return defer.resolve();
       } else {
-        console.error(error.Error);
-        return defer.reject(error);
+        env.debug(error.Error.red);
+        return defer.reject(error.Error);
       }
     });
     return defer.promise;
