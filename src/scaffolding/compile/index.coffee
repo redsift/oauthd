@@ -9,5 +9,6 @@ module.exports = (env) ->
 			if not error
 				defer.resolve()
 			else
-				defer.reject()
+				console.error(error.Error)
+				defer.reject(error)
 		defer.promise
