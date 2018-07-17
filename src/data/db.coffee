@@ -101,7 +101,7 @@ module.exports = (env) ->
 			cb null, final_response
 
 	data.redis.on 'connect', () ->
-		console.log 'managed to connect!'
+		console.log 'Managed to connect to Redis!'
 
 	data.redis.on 'reconnecting', (r) ->
 		console.log 'reconnecting... ', r.attempt

@@ -6,7 +6,8 @@ restify = require 'restify'
 Url = require 'url'
 
 module.exports = (env) ->
-	env.debug 'Initializing plugins engine'
+	logger = new (env.utilities.logger) "plugins"
+	env.info 'Initializing plugins engine'
 	pluginsEngine = {
 		plugin: {}
 	}
@@ -67,9 +68,9 @@ module.exports = (env) ->
 
 	loadPlugin = (plugin_data) ->
 		if not fs.existsSync(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name)
-			env.debug "Cannot find addon " + plugin_data.name
+			logger.error "Cannot find addon " + plugin_data.name
 			return
-		env.debug "Loading " + plugin_data.name.blue
+		logger.info "Loading " + plugin_data.name.blue
 		try
 			plugin = require(env.pluginsEngine.cwd + '/plugins/' + plugin_data.name + plugin_data.main)(env)
 			if plugin_data.type?
@@ -79,8 +80,8 @@ module.exports = (env) ->
 				pluginsEngine.plugin[plugin_data.name] = plugin
 				pluginsEngine.plugin[plugin_data.name]?.plugin_config = plugin_data
 		catch e
-			env.debug "Error while loading plugin " + plugin_data.name
-			env.debug e.stack.yellow # + ' at line ' + e.lineNumber?.red
+			logger.error "Error while loading plugin " + plugin_data.name
+			logger.error e.stack.yellow # + ' at line ' + e.lineNumber?.red
 
 	pluginsEngine.init = (cwd, callback) ->
 		env.pluginsEngine.cwd = cwd
@@ -108,7 +109,7 @@ module.exports = (env) ->
 						list.push key
 				return callback null, list
 			.fail (err) ->
-				env.debug 'An error occured: ' + err
+				logger.error 'An error occured: ' + err
 				return callback err
 
 
