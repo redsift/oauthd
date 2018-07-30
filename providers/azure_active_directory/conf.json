@@ -53,8 +53,10 @@
             "client_secret": "string",
             "scope": {
                 "values": {
-                    "https://graph.microsoft.com/User.Read": "User read",
-                    "https://graph.microsoft.com/Mail.Read": "Mail read",
+                    "https://graph.microsoft.com/User.Read": "User.Read",
+                    "https://graph.microsoft.com/Mail.Read": "Mail.Read",
+                    "https://graph.microsoft.com/User.ReadBasic.All": "User.ReadBasic.All",
+                    "https://graph.microsoft.com/Mail.ReadWrite": "Mail.ReadWrite",
                     "offline_access": "Access your info anytime"
                 }
             }
