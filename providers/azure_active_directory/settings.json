@@ -16,7 +16,7 @@
 		},
         "sample": {
             "method": "get",
-            "url": "/v1.0/me"
+            "url": "/beta/me"
         }
 	}
 }
