@@ -18,4 +18,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: patched
+              ignore: master
