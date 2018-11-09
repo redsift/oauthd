@@ -57,6 +57,7 @@
                     "https://graph.microsoft.com/Mail.Read": "Mail.Read",
                     "https://graph.microsoft.com/User.ReadBasic.All": "User.ReadBasic.All",
                     "https://graph.microsoft.com/Mail.ReadWrite": "Mail.ReadWrite",
+                    "https://graph.microsoft.com/MailboxSettings.ReadWrite": "MailboxSettings.ReadWrite",
                     "offline_access": "Access your info anytime"
                 }
             }
