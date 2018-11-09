@@ -130,9 +130,6 @@ module.exports = function(env) {
 
     Entity.prototype.typedKeys = function() {
       var defer, keys;
-      if (this.constructor._cachedTypedKeys) {
-        return Q(this.constructor._cachedTypedKeys);
-      }
       defer = Q.defer();
       keys = {};
       this.keys().then((function(_this) {

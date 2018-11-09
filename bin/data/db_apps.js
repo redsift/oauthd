@@ -659,34 +659,7 @@ module.exports = function(env) {
         if ((providers != null ? providers.length : void 0) > 0) {
           return callback(null, providers);
         } else {
-          return env.data.redis.get(prefix + ':stored_keysets', function(err, v) {
-            if (v !== '1') {
-              return env.data.redis.set(prefix + ':stored_keysets', '1', function(err) {
-                return env.data.redis.keys(prefix + ':k:*', function(err, provider_keys) {
-                  var commands, i, len, p;
-                  if (err) {
-                    return callback(err);
-                  }
-                  commands = [];
-                  providers = [];
-                  for (i = 0, len = provider_keys.length; i < len; i++) {
-                    key = provider_keys[i];
-                    p = key.replace(prefix + ':k:', '');
-                    providers.push(p);
-                    commands.push(['sadd', providers_key, p]);
-                  }
-                  return env.data.redis.multi(commands).exec(function(err) {
-                    if (err) {
-                      return callback(err);
-                    }
-                    return callback(null, providers);
-                  });
-                });
-              });
-            } else {
-              return callback(null, providers);
-            }
-          });
+          return callback(null, []);
         }
       });
     });
