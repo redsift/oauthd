@@ -18,4 +18,6 @@ workflows:
       - build:
           filters:
             branches:
-              only: patched
+              only:
+                - patched
+                - merge_attempt
