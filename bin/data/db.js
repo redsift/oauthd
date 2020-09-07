@@ -166,6 +166,19 @@ module.exports = function(env) {
     shasum.update(config.staticsalt + data);
     return shasum.digest('base64');
   };
+  data.generateCodeVerifier = function() {
+    var randomString;
+    randomString = function() {
+      return Math.random().toString(36).substring(2, 15);
+    };
+    randomString = randomString().concat(randomString()).concat(randomString()).concat(randomString());
+    return randomString;
+  };
+  data.generateCodeChallenge = function(codeVerifier) {
+    var shasum;
+    shasum = crypto.createHash('sha256').update(codeVerifier).digest('base64');
+    return shasum.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+  };
   data.emptyStrIfNull = function(val) {
     if ((val == null) || val.length === 0) {
       return new String("");

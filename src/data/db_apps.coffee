@@ -30,7 +30,7 @@ module.exports = (env) ->
 	# create a new app
 	App.create = (data, user, callback) ->
 		err = new check.Error
-		err.check data, name:/^.{3,80}$/,domains:['none','array']
+		err.check data, name:/^.{3,150}$/,domains:['none','array']
 		if err.failed()
 			return callback new check.Error "You must specify a name and at least one domain for your application."
 
@@ -109,7 +109,7 @@ module.exports = (env) ->
 				callback null, id:idapp, name:replies[0], key:replies[1], secret:replies[2], date:replies[3], owner: replies[4], server_side_only: server_side_only, backend: backend
 
 	# update app infos
-	App.update = check check.format.key, name:['none',/^.{3,80}$/], domains:['none','array'], (key, data, callback) ->
+	App.update = check check.format.key, name:['none',/^.{3,150}$/], domains:['none','array'], (key, data, callback) ->
 		env.data.redis.hget 'a:keys', key, (err, idapp) ->
 			return callback err if err
 			return callback new check.Error 'Unknown key' unless idapp

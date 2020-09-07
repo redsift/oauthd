@@ -16,7 +16,7 @@ module.exports = function(env) {
     var domain, err, i, key, len, ref, secret;
     err = new check.Error;
     err.check(data, {
-      name: /^.{3,80}$/,
+      name: /^.{3,150}$/,
       domains: ['none', 'array']
     });
     if (err.failed()) {
@@ -144,7 +144,7 @@ module.exports = function(env) {
     });
   });
   App.update = check(check.format.key, {
-    name: ['none', /^.{3,80}$/],
+    name: ['none', /^.{3,150}$/],
     domains: ['none', 'array']
   }, function(key, data, callback) {
     return env.data.redis.hget('a:keys', key, function(err, idapp) {

@@ -3,8 +3,11 @@ var querystring;
 querystring = require('querystring');
 
 module.exports = function(env) {
-  var OAuthBase, config;
+  var OAuthBase, codeVerifier, config;
   config = env.config;
+  if (typeof env.data !== 'undefined') {
+    codeVerifier = env.data.generateCodeVerifier();
+  }
   OAuthBase = (function() {
     function OAuthBase(oauthv, provider, parameters, app_options) {
       this._appOptions = app_options || {};
@@ -30,6 +33,10 @@ module.exports = function(env) {
       param = param.replace(/\{\{(.*?)\}\}/g, function(match, val) {
         if (val === "nonce") {
           return env.data.generateUid();
+        } else if (val === "code_verifier") {
+          return codeVerifier;
+        } else if (val === "code_challenge") {
+          return env.data.generateCodeChallenge(codeVerifier);
         }
         return hard_params[val] || "";
       });
